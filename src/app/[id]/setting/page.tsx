@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useId } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 import type { VotingSettings } from '@/types/type';
 import { eventAPI } from '@/lib/api';
@@ -11,51 +11,14 @@ import {
   isValidDate,
   isValidTime,
   dateTimeStringsToISO,
-  dateToDateString,
   isPastDateTime,
 } from '@/lib/dateUtils';
-
-// デフォルト設定（7日後の23:59を締切に）
-const getDefaultDeadline = () => {
-  const futureDate = new Date();
-  futureDate.setDate(futureDate.getDate() + 7);
-  return dateToDateString(futureDate);
-};
-
-const defaultSettings: VotingSettings = {
-  allowSettingChanges: true,
-  deadline: {
-    enable: true,
-    date: getDefaultDeadline(),
-    time: '23:59',
-  },
-  autoDecision: {
-    enable: true,
-    threshold: 3,
-  },
-  rss: {
-    enable: false,
-  },
-};
-
-// sessionStorageから設定を読み込む（イベントIDと紐づけて管理）
-function loadSettingsFromStorage(eventId: string | null): VotingSettings {
-  try {
-    // イベントIDがある場合は専用のキーで保存
-    const storageKey = eventId ? `votingSettings_${eventId}` : 'votingSettings';
-    const savedSettings = sessionStorage.getItem(storageKey);
-    if (savedSettings) {
-      return JSON.parse(savedSettings) as VotingSettings;
-    }
-  } catch (err) {
-    console.error('設定の読み込みエラー:', err);
-  }
-  return defaultSettings;
-}
+import { loadSettingsFromStorage, defaultSettings } from '@/lib/loadSettings';
 
 export default function SettingPage() {
   const router = useRouter();
-  const eventId = null; // TODO: 後で削除
+  const params = useParams();
+  const eventId = params.id as string;
   
   // 一意なIDを生成
   const autoDecisionId = useId();

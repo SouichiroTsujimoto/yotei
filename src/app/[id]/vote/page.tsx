@@ -9,6 +9,7 @@ import AvailabilityTable from "@/components/AvailabilityTable"
 import type { EventData, Person, VotingSettings } from '@/types/type';
 import { eventAPI } from '@/lib/api';
 import { isoStringToDateString, isoStringToTimeString } from '@/lib/dateUtils';
+import { loadSettingsFromStorage } from '@/lib/loadSettings';
 
 // バックエンドの設定をフロントエンド形式に変換
 function convertBackendSettingsToFrontend(eventData: EventData): VotingSettings {
@@ -52,6 +53,10 @@ export default function VotePage() {
     const [newPersonName, setNewPersonName] = useState('');
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [settings, setSettings] = useState<VotingSettings | null>(null);
+
+    const handleSettingsOpen = () => {
+        setIsSettingsOpen(true);
+    };
 
     // イベントデータを取得する関数
     const fetchEventData = useCallback(async () => {
@@ -246,7 +251,7 @@ export default function VotePage() {
                     </div>
                     <button
                         type="button"
-                        onClick={() => setIsSettingsOpen(true)}
+                        onClick={handleSettingsOpen}
                         className="flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,7 +441,7 @@ export default function VotePage() {
                                             設定ページで投票の条件を設定してください
                                         </p>
                                         <Link
-                                            href="/setting"
+                                            href={`/${eventId}/setting`}
                                             className="inline-block px-6 py-3 bg-lime-400 text-slate-950 rounded-lg font-bold hover:bg-lime-300 transition-colors"
                                         >
                                             設定ページへ移動
@@ -450,7 +455,7 @@ export default function VotePage() {
                                 <div className="sticky bottom-0 bg-slate-900 border-t border-slate-700 p-6 flex justify-between items-center">
                                     {settings.allowSettingChanges && (
                                         <Link
-                                            href={`/setting?eventId=${eventId}`}
+                                            href={`/${eventId}/setting`}
                                             className="text-lime-400 hover:text-lime-300 transition-colors font-medium"
                                         >
                                             設定を編集
