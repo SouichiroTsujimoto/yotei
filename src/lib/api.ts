@@ -1,7 +1,7 @@
 import type { EventData, Participant } from '@/types/type';
 
 // APIのベースURL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
 // 共通のfetchラッパー
 async function apiFetch<T>(
