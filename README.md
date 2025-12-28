@@ -1,5 +1,16 @@
+## Optime
+![Create Next App · 12 46am · 12-29](https://github.com/user-attachments/assets/568ed7d4-6cfa-4689-93a2-0cb8febd6754)
+![Create Next App · 12 47am · 12-29](https://github.com/user-attachments/assets/8357f2f1-310e-41ed-abba-2ac409e45676)
+
+https://optime-schedule.com/
+
+RSSを用いた投票結果の通知機能や、settings.jsonによる投票設定などの機能を持つ、調整さんライクな予定投票サイトです。
+
 ### Optime-backend
 https://github.com/SouichiroTsujimoto/Optime-backend
+
+
+## Dev
 
 ### 環境変数の設定
 
